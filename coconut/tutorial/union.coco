@@ -5,6 +5,7 @@ Tree = Union["Empty", "Leaf", "Node"]
 data Empty()
 data Leaf(n)
 data Node(l, r)
+data Fun(n)
 
 def depth(Empty()) = 0
 
@@ -27,10 +28,12 @@ def depth1(t : Tree) -> int:
             return 1
         match Node(l,r):
             return depth1(l) + depth1(r)
-    raise TypeError("invalid")
+        match _:
+            raise TypeError(f"Invalid type {type(t)}")
 
 print("--")
 
 Empty() |> depth1 |> print
 Leaf(5) |> depth1 |> print
 Node(Leaf(2), Node(Empty(), Leaf(3))) |> depth1 |> print
+#Fun(3) |> depth1
