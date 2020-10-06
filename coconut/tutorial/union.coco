@@ -37,3 +37,21 @@ Empty() |> depth1 |> print
 Leaf(5) |> depth1 |> print
 Node(Leaf(2), Node(Empty(), Leaf(3))) |> depth1 |> print
 #Fun(3) |> depth1
+
+print("--")
+
+data S(i:int)
+data T(f:float)
+ST = Union[S,T]
+
+
+
+def fun(S(n), i is str):
+    print(f"{i}= {n}")
+addpattern def fun(T(n), i is str):
+    print(f"{i}= {n}")
+
+
+fun(S(3), "3")
+fun(T(4.3), "4.3")
+#fun(T(4.3), 4.3) # fails
