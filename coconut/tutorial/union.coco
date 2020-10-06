@@ -44,6 +44,11 @@ data S(i:int)
 data T(f:float)
 ST = Union[S,T]
 
+match def gun(i is int, j is int):
+    return i+j
+
+gun(2,3) |> print
+#gun(2.0,3) |> print  # fails
 
 
 def fun(S(n), i is str):
