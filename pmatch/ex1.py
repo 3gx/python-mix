@@ -1,45 +1,25 @@
 ##type: ignore
 
 from __future__ import annotations
-import dataclasses as _dc
+#import dataclasses as _dc
 #from dataclasses import dataclass
-from typing import Union as TUnion, Callable as TLam, Any as TAny
+import mypmatch as mpm
+from mypmatch import TAny, TUnion, TLam
 
-@_dc.dataclass
-class S:
-    _1 : int
-
-
-def dataclass(*types : TAny) -> TAny:
-    def wrapper(cls : TAny) -> TAny:
-        fields = [(f"_{i}",ty) for i, ty in enumerate(types)]
-        string = f"{cls.__name__}("
-        keys = [f"_{i}" for i,_ in enumerate(types)]
-        for k in keys[:-1]:
-            string += f"{{self.{k}}},"
-        string += f"{{self.{keys[-1]}}})"
-        def get_names(self : TAny) -> str:
-            string = f"{cls.__name__}("
-            for i, k in enumerate(keys):
-                value = getattr(self,k)
-                if isinstance(value, str):
-                    string += f"'{value}'"
-                else:
-                    string += f"{value}"
-                string += ")" if (i == len(keys)-1) else ","
-            return string
-        return _dc.make_dataclass(cls.__name__, fields=fields,
-                namespace={'__repr__': lambda self: get_names(self)})
-    return wrapper
+#@_dc.dataclass
+#class S:
+##    _1 : int
 
 
-@dataclass(float, str,int)
+@mpm.dataclass(int)
+class S: pass
+@mpm.dataclass(float, str,int)
 class T: pass
 
-@dataclass(str)
+@mpm.dataclass(str)
 class U: pass
 
-@dataclass
+@mpm.dataclass
 class V: pass
 
 t = T(1,2,3)
