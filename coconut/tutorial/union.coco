@@ -42,7 +42,8 @@ print("--")
 
 data S(i:int)
 data T(f:float)
-ST = Union[S,T]
+data U(i,j)
+ST = Union[S,T,U]
 
 match def gun(i is int, j is int):
     return i+j
@@ -55,8 +56,11 @@ def fun(S(n), i is str):
     print(f"{i}= {n}")
 addpattern def fun(T(n), i is str):
     print(f"{i}= {n}")
+addpattern def fun(U(n,k), i is str):
+    print(f"{i}= {n},{k}")
 
 
 fun(S(3), "3")
 fun(T(4.3), "4.3")
+fun(U(4.3, 4), "4.3,4")
 #fun(T(4.3), 4.3) # fails
