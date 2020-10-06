@@ -1,0 +1,36 @@
+from typing import Union
+from typeguard import typechecked
+
+Tree = Union["Empty", "Leaf", "Node"]
+data Empty()
+data Leaf(n)
+data Node(l, r)
+
+def depth(Empty()) = 0
+
+@addpattern(depth)
+def depth(Leaf(n)) = 1
+
+@addpattern(depth)
+def depth(Node(l, r)) = 1 + max([depth(l), depth(r)])
+
+Empty() |> depth |> print
+Leaf(5) |> depth |> print
+Node(Leaf(2), Node(Empty(), Leaf(3))) |> depth |> print
+
+@typechecked
+def depth1(t : Tree) -> int:
+    case t:
+        match Empty():
+            return 0
+        match Leaf(_):
+            return 1
+        match Node(l,r):
+            return depth1(l) + depth1(r)
+    raise TypeError("invalid")
+
+print("--")
+
+Empty() |> depth1 |> print
+Leaf(5) |> depth1 |> print
+Node(Leaf(2), Node(Empty(), Leaf(3))) |> depth1 |> print
