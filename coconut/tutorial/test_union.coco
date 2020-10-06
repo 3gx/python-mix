@@ -1,0 +1,10 @@
+from union import *
+
+def test_v1():
+    Empty() |> depth1 |> print
+    Leaf(5) |> depth1 |> print
+    Node(Leaf(2), Node(Empty(), Leaf(3))) |> depth1 |> print
+    assert(True)
+
+if __name__ == "__main__":
+    test_v1()
