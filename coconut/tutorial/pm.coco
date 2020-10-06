@@ -1,0 +1,11 @@
+match def print_type():
+    print("Received no arguments.")
+
+#@addpattern(print_type)
+match addpattern def print_type(x is int):
+    print("Received an int.")
+
+print_type()  # appears to work
+print_type(1) # TypeError: print_type() takes 0 positional arguments but 1 was given
+print_type(1)  # Works as expected
+print_type("This is a string.") # Raises MatchError
