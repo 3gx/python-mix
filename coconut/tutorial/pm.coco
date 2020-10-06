@@ -2,7 +2,7 @@ match def print_type():
     print("Received no arguments.")
 
 #@addpattern(print_type)
-match addpattern def print_type(x is int):
+addpattern def print_type(x is int):
     print("Received an int.")
 
 print_type()  # appears to work
