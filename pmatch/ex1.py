@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 import mypmatch as mpm
+from mypmatch import dataclass
 from mypmatch import TAny
 from mypmatch import TUnion, TLam
 
@@ -10,15 +11,15 @@ from mypmatch import TUnion, TLam
 ##    _1 : int
 
 
-@mpm.dataclass(int)
+@dataclass(int)
 class S: pass
-@mpm.dataclass(float, str,int)
+@dataclass(float, str,int)
 class T: pass
 
-@mpm.dataclass(str)
+@dataclass(str)
 class U: pass
 
-@mpm.dataclass
+@dataclass
 class V: pass
 
 t = T(1,2,3)
