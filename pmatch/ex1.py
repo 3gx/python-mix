@@ -28,6 +28,8 @@ t = T(1,2,3)
 print(t)
 u = U("fun")
 print(u)
+m,n,k = t
+print(m,n,k)
 
 ST = TUnion[S,T]
 UV = TUnion[U,V]
