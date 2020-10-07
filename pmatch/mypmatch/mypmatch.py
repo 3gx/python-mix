@@ -2,7 +2,7 @@ from typing import Union as TUnion, Callable as TLam, Any as TAny, \
                    Iterable as TIter
 import dataclasses as _dc
 
-def dataclass(*types : TAny) -> TAny:
+def data(*types : TAny) -> TAny:
     def wrapper(cls : TAny) -> TAny:
         fields = [(f"_{i}",ty) for i, ty in enumerate(types)]
         string = f"{cls.__name__}("

@@ -2,26 +2,26 @@
 
 from __future__ import annotations
 import mypmatch as mpm
-from mypmatch import dataclass
+from mypmatch import data
 from mypmatch import TAny
 from mypmatch import TUnion, TLam
 
-@dataclass()
+@data()
 class SX:
     _1 : int
 
 sx = SX()
 print(sx)
 
-@dataclass(int)
+@data(int)
 class S: pass
-@dataclass(float, str,int)
+@data(float, str,int)
 class T: pass
 
-@dataclass(str)
+@data(str)
 class U: pass
 
-@dataclass
+@data
 class V: pass
 
 t = T(1,2,3)
