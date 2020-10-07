@@ -6,10 +6,12 @@ from mypmatch import dataclass
 from mypmatch import TAny
 from mypmatch import TUnion, TLam
 
-#@_dc.dataclass
-#class S:
-##    _1 : int
+@dataclass()
+class SX:
+    _1 : int
 
+sx = SX()
+print(sx)
 
 @dataclass(int)
 class S: pass
