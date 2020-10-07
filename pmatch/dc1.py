@@ -5,19 +5,29 @@ import dataclasses as _dc
 from dataclasses import dataclass
 
 
-@dataclass
-class S1:
+class Unpack:
+    def __iter__(self) -> TIter[TAny]:
+        yield from [getattr(self, field.name) for field in _dc.fields(self)]
+    def __repr__(self) -> str:
+        string = f"{self.__class__.__name__}("
+        keys = [field.name for field in _dc.fields(self)]
+        for i, k in enumerate(keys):
+            value = getattr(self,k)
+            if isinstance(value, str):
+                string += f"'{value}'"
+            else:
+                string += f"{value}"
+            if i < len(keys)-1:
+                string += ","
+        string += ")"
+        return string
+
+
+
+@dataclass(repr=False)
+class S1(Unpack):
     x : int
     y : str
-    def __iter__(self) -> TIter[TAny]:
-        yield from [self.x, self.y]
-
-if False:
-    X = _dc.make_dataclass("X", [("_1", str), ("_2", float)])
-
-    x = X("3", 4)
-    m,n = x
-    print(m,n)
 
 s = S1(3,"4.0")
 print(s)
