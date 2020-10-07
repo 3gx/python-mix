@@ -1,10 +1,9 @@
 ##type: ignore
 
 from __future__ import annotations
-#import dataclasses as _dc
-#from dataclasses import dataclass
 import mypmatch as mpm
-from mypmatch import TAny, TUnion, TLam
+from mypmatch import TAny
+from mypmatch import TUnion, TLam
 
 #@_dc.dataclass
 #class S:
