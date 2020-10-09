@@ -33,7 +33,35 @@ class _skip_context:
 
 
 
-with _skip_context(True) as (a,b,c), _skip_context(False) as g:
+with _skip_context(False) as (a,b,c), _skip_context(False) as g:
     print(a,b,c)
+    with _skip_context(True):
+        pass
     print(g)
+
+
+from contextlib import suppress, contextmanager
+
+class Pass(Exception): pass
+
+@contextmanager
+def skip(flag):
+    if flag:
+        raise Pass
+    yield
+
+suppress = suppress(Pass)
+
+@contextmanager
+def ctx():
+    yield ("a","b","cc")
+
+with suppress, ctx() as (a,b,c):
+    print(a,b,c)
+    with suppress, ctx() as g, skip(True):
+        print(g)
+    with suppress, ctx() as g, skip(False):
+        print(g)
+    print(c,b,a)
+
 
