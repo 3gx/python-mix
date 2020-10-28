@@ -38,34 +38,27 @@ class Var:
     def assign(self, value):
         self.value = value
 
-def deco1(fn):
-    fn_args = inspect.getfullargspec(fn).args
-    kw_args = {kw : Var() for kw in fn_args}
-    fn(**kw_args)
-    kw_args = {k : v.value for k,v in kw_args.items()}
-    return kw_args
-
-class InjectVars(ast.NodeTransformer):
-    def __init__(self, ctx):
-        self.ctx = ctx
-
-
-    def visit_FunctionDef(self, node):
-        print(type(node.body))
-        node.decorator_list = []
-        stmts = list()
-        for k,v in self.ctx.items():
-            stmt = ast.Assign(targets=[ast.Name(id=k, ctx=ast.Store())],
-                    value=ast.Constant(value=v,kind=None),
-                    type_comment=None)
-            stmts.append(stmt)
-        stmts += node.body
-        node.body = stmts
-        return node
-
 def add_context(fn, ctx):
+
+    class Transform(ast.NodeTransformer):
+        def __init__(self, ctx):
+            self.ctx = ctx
+
+
+        def visit_FunctionDef(self, node):
+            node.decorator_list = []
+            stmts = list()
+            for k,v in self.ctx.items():
+                stmt = ast.Assign(targets=[ast.Name(id=k, ctx=ast.Store())],
+                        value=ast.Constant(value=v,kind=None),
+                        type_comment=None)
+                stmts.append(stmt)
+            stmts += node.body
+            node.body = stmts
+            return node
+
     tree = get_ast(fn)
-    InjectVars(ctx).visit(tree)
+    Transform(ctx).visit(tree)
     ast.fix_missing_locations(tree)
 #    print(ast_.dump(tree))
 #    print(ast_.unparse(tree))
@@ -76,13 +69,20 @@ def add_context(fn, ctx):
     modified_fn = local_vars[fn.__name__]
     return modified_fn
 
+def deco1(fn):
+    fn_args = inspect.getfullargspec(fn).args
+    kw_args = {kw : Var() for kw in fn_args}
+    fn(**kw_args)
+    kw_args = {k : v.value for k,v in kw_args.items()}
+    return kw_args
+
 def deco2(ctx):
     assert(isinstance(ctx,dict))
     def wrapper(fn):
         return add_context(fn,ctx)
     return wrapper
 
-
+########## example
 
 @deco1
 def P(x,y):
